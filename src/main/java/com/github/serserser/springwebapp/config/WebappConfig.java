@@ -19,7 +19,8 @@ public class WebappConfig implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        WebApplicationContext context = getContext();
+        AnnotationConfigWebApplicationContext context = getContext();
+        context.setServletContext(servletContext);
 
         servletContext.addListener(new ContextLoaderListener(context));
 
@@ -32,14 +33,15 @@ public class WebappConfig implements WebApplicationInitializer {
         servletContext.addFilter("springSecurityFilterChain", filter).addMappingForUrlPatterns(null, false, "/*");
     }
 
-    private WebApplicationContext getContext() {
+    private AnnotationConfigWebApplicationContext getContext() {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.setConfigLocations(
                 DatabaseConfig.class.getCanonicalName(),
                 SpringSecurityConfig.class.getCanonicalName(),
                 WebappConfig.class.getCanonicalName(),
                 AuthorizationServerConfiguration.class.getCanonicalName(),
-                JwtTokenConfiguration.class.getCanonicalName()
+                JwtTokenConfiguration.class.getCanonicalName(),
+                MvcConfig.class.getCanonicalName()
         );
 
         return context;
