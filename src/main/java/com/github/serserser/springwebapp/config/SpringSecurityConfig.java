@@ -45,8 +45,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new StandardPasswordEncoder();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.debug(true);
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.debug(true);
+//    }
 }
