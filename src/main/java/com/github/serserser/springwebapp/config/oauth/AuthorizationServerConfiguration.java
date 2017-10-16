@@ -31,7 +31,8 @@ public class AuthorizationServerConfiguration
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
                 .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()");
+                .checkTokenAccess("permitAll()")
+                .allowFormAuthenticationForClients();
     }
 
     @Override
@@ -39,6 +40,7 @@ public class AuthorizationServerConfiguration
         // @formatter:off
         clients.inMemory()
                 .withClient("sampleClientId")
+                .secret("sampleClientIdPassword")
                 .authorizedGrantTypes("implicit")
                 .scopes("read")
                 .autoApprove(true)
