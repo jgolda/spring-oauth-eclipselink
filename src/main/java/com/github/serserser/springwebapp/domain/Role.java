@@ -2,6 +2,7 @@ package com.github.serserser.springwebapp.domain;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "t_roles")
@@ -25,7 +26,8 @@ public class Role {
                     referencedColumnName = "rol_id"),
             inverseJoinColumns = @JoinColumn(name = "rpv_prv_id",
                     referencedColumnName = "prv_id"))
-    private List<Privilege> privileges;
+    @MapKey(name = "code")
+    private Map<String, Privilege> privileges;
 
     public void setId(Long id) {
         this.id = id;
@@ -51,11 +53,11 @@ public class Role {
         this.description = description;
     }
 
-    public List<Privilege> getPrivileges() {
+    public Map<String, Privilege> getPrivileges() {
         return privileges;
     }
 
-    public void setPrivileges(List<Privilege> privileges) {
+    public void setPrivileges(Map<String, Privilege> privileges) {
         this.privileges = privileges;
     }
 }

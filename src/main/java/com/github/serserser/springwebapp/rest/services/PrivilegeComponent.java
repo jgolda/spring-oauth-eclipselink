@@ -1,5 +1,7 @@
 package com.github.serserser.springwebapp.rest.services;
 
+import com.github.serserser.springwebapp.services.PrivilegeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,11 @@ import javax.ws.rs.core.MediaType;
 @Component
 @Path("/privilege")
 public class PrivilegeComponent {
+
+    @Autowired
+    private PrivilegeService privilegeService;
+
+
 
     @GET
     @PreAuthorize("hasAuthority('PRIVILEGE_VIEW')")

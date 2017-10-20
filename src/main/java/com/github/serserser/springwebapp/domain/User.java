@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -138,10 +139,12 @@ public class User implements Serializable {
 
     public Map<String, Privilege> getPrivileges() {
         return roles.stream()
-                .flatMap(role -> role.getPrivileges().stream())
-                .collect(Collectors.toMap(Privilege::getCode,
-                        privilege -> privilege,
-                        (first, next) -> next)
-                );
+                .map(Role::getPrivileges)
+                .map(Map::entrySet)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (first, last) -> last));
     }
 }

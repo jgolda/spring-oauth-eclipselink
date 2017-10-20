@@ -65,7 +65,12 @@ public class UserService {
 
 
 
-    public void modifyPrivileges(User user, List<String> assignedRolesCodes) throws InvalidRoleException {
+    public User modifyPrivileges(User user, List<String> assignedRolesCodes) throws InvalidRoleException {
+        user.getRoles().clear();
+        return addPrivileges(user, assignedRolesCodes);
+    }
+
+    public User addPrivileges(User user, List<String> assignedRolesCodes) throws InvalidRoleException {
         Map<String, Role> roles = roleService.findByCode(assignedRolesCodes);
 
         if (!roles.keySet().containsAll(assignedRolesCodes)) {
@@ -73,7 +78,7 @@ public class UserService {
         }
 
         Collection<Role> assignedRoles = roles.values();
-        user.setRoles(new ArrayList<>(assignedRoles));
-        userRepository.save(user);
+        user.getRoles().addAll(assignedRoles);
+        return userRepository.save(user);
     }
 }
