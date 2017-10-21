@@ -40,12 +40,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-//                    .antMatchers("/login").permitAll()
-//                    .anyRequest().authenticated()
-                .and()
-                    .formLogin().permitAll();
+                .antMatchers("/static/**").permitAll();
         // @formatter:on
+    }
+
+    @Override
+    public void configure(final WebSecurity security) {
+        security.ignoring()
+                .antMatchers("/")
+                .antMatchers("/static/**");
     }
 
     @Bean

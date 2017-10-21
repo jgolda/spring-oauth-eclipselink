@@ -8,8 +8,7 @@ module.controller('LoginController',
         $scope.data = {
             username: '',
             password: '',
-            grant_type: 'password',
-            client_id: 'clientIdPassword'
+            grant_type: 'password'
         };
 
         $scope.encoded = btoa('clientIdPassword:secret');
