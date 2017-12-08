@@ -23,7 +23,6 @@ public class AuthorizationServerConfiguration
         extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
-//    @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -50,23 +49,6 @@ public class AuthorizationServerConfiguration
     public ClientDetailsService clientDetailsService() {
         return new ApplicationClientsDetailsServiceImpl();
     }
-
-//    @Override
-//    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//        // @formatter:off
-//        clients.inMemory()
-//                .withClient("sampleClientId")
-//                .secret("sampleClientIdPassword")
-//                .authorizedGrantTypes("implicit")
-//                .scopes("read")
-//                .autoApprove(true)
-//            .and()
-//                .withClient("clientIdPassword")
-//                .secret("secret")
-//                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-//                .scopes("read");
-//        // @formatter:on
-//    }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
