@@ -5,12 +5,15 @@ create table t_role_privileges (
 
     constraint pk_t_role_privileges
     primary key (rpv_id),
+
     constraint fk_rpv_rol_id
     foreign key (rpv_rol_id)
     references t_roles (rol_id),
+
     constraint fk_rpv_prv_id
     foreign key (rpv_prv_id)
     references t_privileges (prv_id),
+
     constraint uq_rpv
     unique (rpv_rol_id, rpv_prv_id)
 );

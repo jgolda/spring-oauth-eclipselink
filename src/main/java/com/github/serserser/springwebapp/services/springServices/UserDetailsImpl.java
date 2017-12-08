@@ -1,4 +1,4 @@
-package com.github.serserser.springwebapp.services.springUsers;
+package com.github.serserser.springwebapp.services.springServices;
 
 import com.github.serserser.springwebapp.domain.Privilege;
 import com.github.serserser.springwebapp.domain.User;
@@ -9,25 +9,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl extends Authorized implements UserDetails {
 
     private User user;
 
     private Set<? extends GrantedAuthority> privileges;
 
-    public UserDetailsImpl(User user, Map<String, Privilege> privileges) {
+    public UserDetailsImpl(User user) {
         this.user = user;
-        this.privileges = mapToGrantedAuthority(privileges);
-    }
-
-    private Set<SimpleGrantedAuthority> mapToGrantedAuthority(Map<String, Privilege> privileges) {
-        return privileges.values().stream()
-                .map(privilege -> new SimpleGrantedAuthority(privilege.getCode()))
-                .collect(Collectors.toSet());
+        this.privileges = mapToGrantedAuthority(user.getPrivileges());
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<GrantedAuthority> getAuthorities() {
         return Collections.unmodifiableCollection(privileges);
     }
 

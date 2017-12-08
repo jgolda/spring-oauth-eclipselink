@@ -25,11 +25,11 @@ public class FlywayDBUpdater {
     private void updateDB() {
         logger.info("Starting db upgrade with Flyway");
         Flyway flyway = new Flyway();
+        flyway.setBaselineOnMigrate(true);
         flyway.setLocations("classpath:/db/migrations");
-        flyway.setTable("T_UPGRADES");
+        flyway.setTable("t_upgrades");
         flyway.setDataSource(datasource);
         flyway.setSqlMigrationPrefix("v_");
-        flyway.baseline();
         flyway.migrate();
         logger.info("Successfully finished db upgrade");
     }

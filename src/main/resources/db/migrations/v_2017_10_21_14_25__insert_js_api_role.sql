@@ -1,0 +1,1 @@
+insert into t_roles (rol_id, rol_code, rol_description) values (s_rol_id.nextval, 'JS_API', 'api user for javascript');

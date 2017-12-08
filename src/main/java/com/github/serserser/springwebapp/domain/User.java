@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @SequenceGenerator(name = "usr_id_seq", sequenceName = "s_usr_id", allocationSize = 1)
 @ValidRequiredFields
 @EqualPasswords
-public class User implements Serializable {
+public class User extends Privileged implements Serializable{
 
     public User() {
     }
@@ -129,22 +129,12 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    @Override
     public List<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }
-
-    public Map<String, Privilege> getPrivileges() {
-        return roles.stream()
-                .map(Role::getPrivileges)
-                .map(Map::entrySet)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (first, last) -> last));
     }
 }

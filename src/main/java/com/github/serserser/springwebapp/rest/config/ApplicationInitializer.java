@@ -1,6 +1,8 @@
 package com.github.serserser.springwebapp.rest.config;
 
 import com.github.serserser.springwebapp.rest.filters.AllowCrossOriginHeaderFilter;
+import com.github.serserser.springwebapp.rest.filters.DefaultMediaTypeFilter;
+import com.github.serserser.springwebapp.rest.services.ApplicationClientComponent;
 import com.github.serserser.springwebapp.rest.services.PrivilegeComponent;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
@@ -22,7 +24,9 @@ public class ApplicationInitializer extends ResourceConfig {
         WebApplicationContext webAppContext = WebApplicationContextUtils.getWebApplicationContext(context);
 
         register(webAppContext.getBean(PrivilegeComponent.class));
+        register(webAppContext.getBean(ApplicationClientComponent.class));
         register(webAppContext.getBean(AllowCrossOriginHeaderFilter.class));
+        register(webAppContext.getBean(DefaultMediaTypeFilter.class));
         logger.info("Finished initializing the rest api");
     }
 }

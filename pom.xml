@@ -133,6 +133,11 @@
             <artifactId>flyway-core</artifactId>
             <version>4.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -144,6 +149,19 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>4.2.0</version>
+                <configuration>
+                    <sqlMigrationPrefix>v_</sqlMigrationPrefix>
+                    <table>t_upgrades</table>
+                    <baselineOnMigrate>true</baselineOnMigrate>
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migrations</location>
+                    </locations>
                 </configuration>
             </plugin>
         </plugins>

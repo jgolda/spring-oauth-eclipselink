@@ -20,7 +20,7 @@ public class PrivilegeComponent {
 
 
     @GET
-    @PreAuthorize("hasAuthority('PRIVILEGE_VIEW')")
+    @PreAuthorize("hasAuthority('VIEW_PRIVILEGE')")
     @Produces(MediaType.APPLICATION_JSON)
     public String get() {
         return "jestem smokiem!";
