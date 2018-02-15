@@ -7,16 +7,22 @@ import com.github.serserser.springwebapp.exceptions.NoSuchUserException;
 import com.github.serserser.springwebapp.exceptions.SystemException;
 import com.github.serserser.springwebapp.repositories.UserRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.*;
 
 @Service
 public class UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -26,6 +32,9 @@ public class UserService {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private EntityManager em;
 
     public User createUser(@Valid User user) {
         String plainPassword = user.getPlainPassword();
@@ -80,5 +89,13 @@ public class UserService {
         Collection<Role> assignedRoles = roles.values();
         user.getRoles().addAll(assignedRoles);
         return userRepository.save(user);
+    }
+
+    @Transactional
+    public User modifyUser(@Valid User user) {
+//        User result = userRepository.save(user);
+        User result = em.merge(user);
+        logger.info("after saving item");
+        return result;
     }
 }

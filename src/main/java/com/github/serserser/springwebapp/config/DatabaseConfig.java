@@ -40,22 +40,26 @@ public class DatabaseConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) throws SQLException {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setDataSource(dataSource);
-        entityManagerFactory.setPackagesToScan("com.github.serserser.springwebapp.domain");
+        entityManagerFactory.setPackagesToScan("com.github.serserser.springwebapp.domain",
+                "com.github.serserser.springwebapp.db");
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
         entityManagerFactory.setJpaProperties(jpaProperties());
         entityManagerFactory.setSharedCacheMode(SharedCacheMode.NONE);
+        entityManagerFactory.setJtaDataSource(dataSource);
 
         return entityManagerFactory;
     }
 
     private Properties jpaProperties() {
-        return new Properties();
+        Properties properties = new Properties();
+        properties.put("eclipselink.session-event-listener", "com.github.serserser.springwebapp.db.SessionAuditListener");
+        return properties;
     }
 
     @Bean
     public AbstractJpaVendorAdapter jpaVendorAdapter() {
         EclipseLinkJpaVendorAdapter jpaVendorAdapter = new EclipseLinkJpaVendorAdapter();
+
         jpaVendorAdapter.setDatabase(Database.ORACLE);
         return jpaVendorAdapter;
     }
@@ -66,9 +70,9 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+    public PlatformTransactionManager transactionManager(
+            EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager(entityManagerFactory);
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
 
         return transactionManager;
     }

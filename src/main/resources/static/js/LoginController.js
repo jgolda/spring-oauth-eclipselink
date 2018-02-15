@@ -3,15 +3,15 @@ var module = angular.module('app');
 module.controller('LoginController',
     function ($scope, $route, $location, $http, $httpParamSerializer, $cookies) {
 
-        $scope.error;
+        $scope.error = '';
 
         $scope.data = {
             username: '',
             password: '',
+            client_id: 'jsclient',
+            client_secret: 'jsclient',
             grant_type: 'password'
         };
-
-        $scope.encoded = btoa('jsclient:jsclient');
 
         $scope.login = function() {
             console.log('login request for login: ' + $scope.data.username + ', password: ' + $scope.data.password);
@@ -20,7 +20,6 @@ module.controller('LoginController',
                 method: 'POST',
                 url: 'http://localhost:8080/app/oauth/token',
                 headers: {
-                    "Authorization": "Basic " + $scope.encoded,
                     "Content-type": "application/x-www-form-urlencoded; charset=utf-8"
                 },
                 data: $httpParamSerializer($scope.data)

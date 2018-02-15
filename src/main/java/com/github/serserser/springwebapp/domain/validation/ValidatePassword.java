@@ -1,9 +1,5 @@
 package com.github.serserser.springwebapp.domain.validation;
 
-
-import com.oracle.jrockit.jfr.UseConstantPool;
-import org.springframework.stereotype.Component;
-
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
